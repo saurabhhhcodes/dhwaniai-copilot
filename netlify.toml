@@ -1,0 +1,21 @@
+# Netlify configuration — serves the Vite build and proxies /api to a serverless function
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "dist"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Route all API traffic to the Express app wrapped in a Lambda
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback (safety net; dist is served by the CDN anyway)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
