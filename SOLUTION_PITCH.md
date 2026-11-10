@@ -26,6 +26,6 @@ DhwaniAI is a drop-in voice interface layer for enterprises serving non-English,
 ---
 
 **Demo video:** https://youtu.be/zex-UxGgWbo
-**Live app:** [Netlify URL — filled after deploy]
+**Live app:** https://playful-dasik-a65ad5.netlify.app
 **Run locally:** `npm run start` → http://localhost:5173 (add Gnani API key in Settings)
 **Deploy:** `npm run build` + `netlify deploy --build --prod` (backend runs as a Netlify Function via serverless-http)
