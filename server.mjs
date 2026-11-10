@@ -676,8 +676,10 @@ app.get('*', (req, res) => {
 });
 
 // Skip starting an HTTP server when running inside a serverless environment
-// (Netlify Functions imports the app and drives it via serverless-http)
-if (process.env.NETLIFY_FUNCTIONS !== 'true') {
+// (Netlify Functions imports the app and drives it via serverless-http).
+// Netlify functions run with the AWS Lambda runtime env vars set at cold start,
+// so AWS_LAMBDA_FUNCTION_NAME is visible at module-load time.
+if (process.env.NETLIFY_FUNCTIONS !== 'true' && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
   app.listen(port, () => {
     console.log(`\n======================================================`);
     console.log(`🚀 GramVani Cloud-Ready Backend running on http://localhost:${port}`);
