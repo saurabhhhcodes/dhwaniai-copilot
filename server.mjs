@@ -9,8 +9,15 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+let __dirname = path.dirname(process.cwd());
+try {
+  // Works in native ESM locally; throws when esbuild converts this module to
+  // CJS inside the Netlify/Lambda bundle (import.meta.url unavailable).
+  __dirname = path.dirname(fileURLToPath(import.meta.url));
+} catch {
+  // Fall back to the working directory (Lambda /var/task) — only used for
+  // express.static(dist), which doesn't exist on Netlify anyway (CDN serves it).
+}
 
 const app = express();
 const port = process.env.PORT || 3001;
